@@ -19,11 +19,11 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<form id="login-form" action="${s:mvcUrl('UC#login').build()}"
-								method="get" role="form" style="display: block;">
+								method="post" role="form" style="display: block;">
 								<form:errors path="email" style="color:red;font-weight:bold"/>
 								<div class="form-group">
 									<input type="text" name="email" id="email" tabindex="1"
-										class="form-control" placeholder="E-mail" value="" required="required">
+										class="form-control" placeholder="E-mail"  required="required">
 								</div>
 								<div class="form-group">
 									<input type="password" name="senha" id="senha" tabindex="2"

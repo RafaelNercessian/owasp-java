@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.alura.owasp.dao.UsuarioDao;
@@ -53,8 +54,7 @@ public class UsuarioController {
 			RedirectAttributes redirect, Model model, HttpSession session) {
 		Usuario usuarioRetornado = dao.procuraUsuario(usuario);
 		if (usuarioRetornado == null) {
-			redirect.addFlashAttribute("mensagem", "Usuário não encontrado!");
-			return "redirect:/usuario";
+			return "usuario";
 		} else {
 			session.setAttribute("usuario", usuarioRetornado);
 			model.addAttribute("usuario", usuarioRetornado);
