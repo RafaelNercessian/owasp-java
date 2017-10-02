@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<p>TEste</p>
 <%@include file="/WEB-INF/views/cabecalho.jsp"%> 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 	<h1 class="alura-show element"></h1>
