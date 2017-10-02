@@ -38,7 +38,7 @@ public class UsuarioController {
 		return "usuarioLogado";
 	}
 
-	@RequestMapping("/registrar")
+	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
 	public String registrar(@ModelAttribute("usuario") Usuario usuario,
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
@@ -49,7 +49,7 @@ public class UsuarioController {
 		return "usuarioLogado";
 	}
 
-	@RequestMapping("/login")
+	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String login(@ModelAttribute("usuario") Usuario usuario,
 			RedirectAttributes redirect, Model model, HttpSession session) {
 		Usuario usuarioRetornado = dao.procuraUsuario(usuario);

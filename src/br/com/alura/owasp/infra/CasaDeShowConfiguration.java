@@ -38,4 +38,5 @@ public class CasaDeShowConfiguration extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/image/**")
 				.addResourceLocations("/image/");
 	}
+
 }
