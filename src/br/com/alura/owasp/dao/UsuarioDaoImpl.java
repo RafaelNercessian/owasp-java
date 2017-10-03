@@ -6,6 +6,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
 
 @Repository
@@ -38,8 +39,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		query.setParameter("senha", usuario.getSenha());
 		Usuario retornoUsuario = query.getResultList().stream().findFirst()
 				.orElse(null);
-		if (retornoUsuario != null
-				&& retornoUsuario.getRole().equals("ROLE_ADMIN")) {
+		if (retornoUsuario != null) {
 			return true;
 		} else {
 			return false;

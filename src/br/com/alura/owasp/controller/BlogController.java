@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,6 +47,8 @@ public class BlogController {
 			@Valid @ModelAttribute(value = "blog") BlogPost blog,
 			BindingResult result, RedirectAttributes redirect, Model model) {
 		chamaPostsDoBanco(model);
+		
+		//Segunda versão, usando a classe BlogPostValidator
 		if (result.hasErrors()) {
 			return "blog";
 		}

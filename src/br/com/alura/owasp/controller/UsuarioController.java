@@ -2,6 +2,7 @@ package br.com.alura.owasp.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.alura.owasp.dao.UsuarioDao;
+import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
 
 @Controller
@@ -43,6 +45,7 @@ public class UsuarioController {
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
 		chamaLogicaParaTratarImagem(usuario, request);
+		usuario.getRoles().add(new Role("ROLE_USER"));
 		dao.salva(usuario);
 		session.setAttribute("usuario", usuario);
 		model.addAttribute("usuario", usuario);

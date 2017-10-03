@@ -5,13 +5,13 @@
 		commandName="blog" method="post">
 		<div class="form-group">
 			<label for="titulo">Título:</label> 
-			<form:errors path="titulo" class="control-label" />
+			<form:errors path="titulo" style="color: red;font-weight:bold" />
 			<input type="text"
 				class="form-control" id="titulo" name="titulo" placeholder="Título" required="required">
 		</div>
 		<div class="form-group">
 			<label for="textarea">Mensagem:</label>
-						<form:errors path="mensagem" class="control-label" />
+						<form:errors path="mensagem" style="color: red;font-weight:bold"/>
 			<textarea class="form-control" id="textarea" name="mensagem"
 				placeholder="Mensagem para o blog" rows="8" required="required"></textarea>
 		</div>
