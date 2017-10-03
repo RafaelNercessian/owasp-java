@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.alura.owasp.dao.UsuarioDao;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
+import br.com.alura.owasp.model.UsuarioDTO;
 
 @Controller
 @Transactional
@@ -41,11 +42,17 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
-	public String registrar(@ModelAttribute("usuario") Usuario usuario,
+	public String registrar(@ModelAttribute("usuario") UsuarioDTO usuarioDTO,
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
+		
+		Usuario usuario = usuarioDTO.monta();
 		chamaLogicaParaTratarImagem(usuario, request);
+		
+		
 		usuario.getRoles().add(new Role("ROLE_USER"));
+		
+		
 		dao.salva(usuario);
 		session.setAttribute("usuario", usuario);
 		model.addAttribute("usuario", usuario);

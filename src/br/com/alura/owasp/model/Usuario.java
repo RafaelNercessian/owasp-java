@@ -84,5 +84,7 @@ public class Usuario implements Serializable {
 	public void setNomeImagem(String nomeImagem) {
 		this.nomeImagem = nomeImagem;
 	}
+	
+	
  
 }
