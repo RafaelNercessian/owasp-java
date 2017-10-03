@@ -11,15 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.alura.owasp.dao.UsuarioDao;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
-import br.com.alura.owasp.model.UsuarioDTO;
 
 @Controller
 @Transactional
@@ -27,6 +29,13 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioDao dao;
+
+	//Segunda opção contra Mass Assignment, utilizar o setAllowedFields do Spring
+	@InitBinder
+	public void initBinder(WebDataBinder binder, WebRequest request) {
+		binder.setAllowedFields("email", "senha", "nome", "imagem",
+				"nomeImagem");
+	}
 
 	@RequestMapping("/usuario")
 	public String usuario(Model model) {
@@ -41,11 +50,12 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
-	public String registrar(@ModelAttribute("usuario") UsuarioDTO usuarioDTO,
+	public String registrar(@ModelAttribute("usuario") Usuario usuario,
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
-		
-		Usuario usuario = usuarioDTO.montaUsuario();
+
+		//Primeira opção contra Mass Assignment, usando DTO
+		// Usuario usuario = usuarioDTO.montaUsuario();
 		chamaLogicaParaTratarImagem(usuario, request);
 		usuario.getRoles().add(new Role("ROLE_USER"));
 		dao.salva(usuario);
@@ -54,7 +64,7 @@ public class UsuarioController {
 		return "usuarioLogado";
 	}
 
-	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("usuario") Usuario usuario,
 			RedirectAttributes redirect, Model model, HttpSession session) {
 		Usuario usuarioRetornado = dao.procuraUsuario(usuario);
