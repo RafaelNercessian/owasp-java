@@ -49,15 +49,13 @@ public class UsuarioDTO {
 		this.nomeImagem = nomeImagem;
 	}
 
-	public Usuario monta() {
+	public Usuario montaUsuario() {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(this.email);
 		usuario.setNome(this.nome);
 		usuario.setImagem(this.imagem);
 		usuario.setSenha(this.senha);
 		usuario.setNomeImagem(this.nomeImagem);
-		
-		
 		return usuario;
 	}
 }

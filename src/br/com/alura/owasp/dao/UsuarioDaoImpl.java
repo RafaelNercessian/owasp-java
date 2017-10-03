@@ -1,5 +1,7 @@
 package br.com.alura.owasp.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -39,8 +41,15 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		query.setParameter("senha", usuario.getSenha());
 		Usuario retornoUsuario = query.getResultList().stream().findFirst()
 				.orElse(null);
+		
 		if (retornoUsuario != null) {
-			return true;
+			List<Role> roles = retornoUsuario.getRoles();
+			for (Role role : roles) {
+				if(role.getName().equals("ROLE_ADMIN")) {
+					return true;
+				}
+			}
+			return false;
 		} else {
 			return false;
 		}

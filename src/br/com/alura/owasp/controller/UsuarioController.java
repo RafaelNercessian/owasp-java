@@ -2,7 +2,6 @@ package br.com.alura.owasp.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -46,13 +45,9 @@ public class UsuarioController {
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
 		
-		Usuario usuario = usuarioDTO.monta();
+		Usuario usuario = usuarioDTO.montaUsuario();
 		chamaLogicaParaTratarImagem(usuario, request);
-		
-		
 		usuario.getRoles().add(new Role("ROLE_USER"));
-		
-		
 		dao.salva(usuario);
 		session.setAttribute("usuario", usuario);
 		model.addAttribute("usuario", usuario);
