@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.alura.owasp.dao.UsuarioDao;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
+import br.com.alura.owasp.validator.UsuarioValidator;
 
 @Controller
 @Transactional
@@ -29,11 +31,15 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioDao dao;
+	
+	@Autowired
+	private UsuarioValidator validator;
 
 	//Segunda opção contra Mass Assignment, utilizar o setAllowedFields do Spring
 	@InitBinder
-	public void initBinder(WebDataBinder binder, WebRequest request) {
-		binder.setAllowedFields("email", "senha", "nome", "imagem",
+	public void initBinder(WebDataBinder webDataBinder, WebRequest request) {
+		webDataBinder.setValidator(validator);
+		webDataBinder.setAllowedFields("email", "senha", "nome", "imagem",
 				"nomeImagem");
 	}
 
@@ -50,12 +56,16 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
-	public String registrar(@ModelAttribute("usuario") Usuario usuario,
+	public String registrar(@Valid @ModelAttribute("usuario") Usuario usuario,
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
 
+		if(result.hasErrors()){
+			return "usuario";
+		}
+		
 		//Primeira opção contra Mass Assignment, usando DTO
-		// Usuario usuario = usuarioDTO.montaUsuario();
+			// Usuario usuario = usuarioDTO.montaUsuario();
 		chamaLogicaParaTratarImagem(usuario, request);
 		usuario.getRoles().add(new Role("ROLE_USER"));
 		dao.salva(usuario);

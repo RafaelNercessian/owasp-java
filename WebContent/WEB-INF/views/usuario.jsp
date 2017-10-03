@@ -56,7 +56,11 @@
 										class="form-control" placeholder="Senha" required="required">
 								</div>
 								<div>
-									<label for="imagem">Imagem perfil: </label> <input type="file"
+									<label for="imagem">Imagem perfil: </label>
+									
+									<form:errors path="imagem" style="color: red;font-weight:bold" />
+									
+									 <input type="file"
 										name="imagem" multiple="multiple" required="required" />
 								</div>
 
