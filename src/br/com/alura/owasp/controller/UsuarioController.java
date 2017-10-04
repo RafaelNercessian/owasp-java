@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.alura.owasp.dao.UsuarioDao;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
+import br.com.alura.owasp.util.VerifyRecaptcha;
 import br.com.alura.owasp.validator.UsuarioValidator;
 
 @Controller
@@ -80,6 +81,9 @@ public class UsuarioController {
 		
 		String gRecaptchaResponse = request
 				.getParameter("g-recaptcha-response");
+		boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
+		
+		System.out.println(verify);
 		
 		if(gRecaptchaResponse.isEmpty()){
 			redirect.addFlashAttribute("mensagem","Por favor, comprove que você é humano!");
