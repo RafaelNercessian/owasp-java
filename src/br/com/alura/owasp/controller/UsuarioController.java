@@ -92,16 +92,7 @@ public class UsuarioController {
 			return "redirect:/usuario";
 		}
 
-		Usuario usuarioRetornado = dao.procuraUsuario(usuario);
-		if (usuarioRetornado == null) {
-			model.addAttribute("usuario", usuarioRetornado);
-			redirect.addFlashAttribute("mensagem", "Usuário não encontrado");
-			return "redirect:/usuario";
-		} else {
-			session.setAttribute("usuario", usuarioRetornado);
-			model.addAttribute("usuario", usuarioRetornado);
-			return "usuarioLogado";
-		}
+		return pesquisaUsuario(usuario, redirect, model, session);
 	}
 
 	@RequestMapping("/logout")
@@ -119,6 +110,20 @@ public class UsuarioController {
 			usuario.getImagem().transferTo(arquivoDeImagem);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		}
+	}
+	
+
+	private String pesquisaUsuario(Usuario usuario,
+			RedirectAttributes redirect, Model model, HttpSession session) {
+		Usuario usuarioRetornado = dao.procuraUsuario(usuario);
+		model.addAttribute("usuario", usuarioRetornado);
+		if (usuarioRetornado == null) {
+			redirect.addFlashAttribute("mensagem", "Usuário não encontrado");
+			return "redirect:/usuario";
+		} else {
+			session.setAttribute("usuario", usuarioRetornado);
+			return "usuarioLogado";
 		}
 	}
 	
