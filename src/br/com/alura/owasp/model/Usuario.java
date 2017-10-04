@@ -13,11 +13,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "USUARIO")
+@Scope("session")
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,13 +26,10 @@ public class Usuario implements Serializable {
 
 	@Id
 	private String email;
-	@NotEmpty (message="Por favor insira a senha!")
 	private String senha;
-	@NotEmpty (message="Por favor insira seu nome!")
 	private String nome;
 	@Transient
 	private MultipartFile imagem;
-	@NotEmpty
 	private String nomeImagem;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USUARIO_ROLE", joinColumns = { @JoinColumn(name = "EMAIL") }, inverseJoinColumns = { @JoinColumn(name = "NAME") })
