@@ -82,11 +82,11 @@ public class UsuarioController {
 			RedirectAttributes redirect, Model model, HttpSession session,
 			HttpServletRequest request) throws IOException {
 
-		String gRecaptchaResponse = request
+		String respostaRecaptcha = request
 				.getParameter("g-recaptcha-response");
-		boolean verify = VerificaRecaptcha.validacao(gRecaptchaResponse);
+		boolean verificaRecaptcha = VerificaRecaptcha.validacao(respostaRecaptcha);
 
-		if (!verify) {
+		if (!verificaRecaptcha) {
 			redirect.addFlashAttribute("mensagem",
 					"Por favor, comprove que você é humano!");
 			return "redirect:/usuario";
