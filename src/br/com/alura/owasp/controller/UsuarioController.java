@@ -76,10 +76,22 @@ public class UsuarioController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("usuario") Usuario usuario,
-			RedirectAttributes redirect, Model model, HttpSession session) {
+			RedirectAttributes redirect, Model model, HttpSession session, HttpServletRequest request) throws IOException {
+		
+		String gRecaptchaResponse = request
+				.getParameter("g-recaptcha-response");
+		
+		if(gRecaptchaResponse.isEmpty()){
+			redirect.addFlashAttribute("mensagem","Por favor, comprove que você é humano!");
+			return "redirect:/usuario";
+		}
+	
+		
 		Usuario usuarioRetornado = dao.procuraUsuario(usuario);
 		if (usuarioRetornado == null) {
-			return "usuario";
+			model.addAttribute("usuario", usuarioRetornado);
+			redirect.addFlashAttribute("mensagem","Usuário não encontrado");
+			return "redirect:/usuario";
 		} else {
 			session.setAttribute("usuario", usuarioRetornado);
 			model.addAttribute("usuario", usuarioRetornado);

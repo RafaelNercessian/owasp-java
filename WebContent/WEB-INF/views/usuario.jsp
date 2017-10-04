@@ -1,4 +1,5 @@
 <%@include file="/WEB-INF/views/cabecalho.jsp"%>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <div class="container" style="margin-top: 10%">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -11,24 +12,28 @@
 						<div class="col-xs-6">
 							<a href="#" id="register-form-link">Registrar</a>
 						</div>
-					</div>					
+					</div>
 					<hr>
 				</div>
 				<div class="panel-body">
-				<p class="pull-left" style="color:red; font-weight: bold">${mensagem}</p>
+					<p style="color: red; font-weight: bold">${mensagem}</p>
 					<div class="row">
 						<div class="col-lg-12">
 							<form id="login-form" action="${s:mvcUrl('UC#login').build()}"
 								method="post" role="form" style="display: block;">
-								<form:errors path="email" style="color:red;font-weight:bold"/>
+								<form:errors path="email" style="color:red;font-weight:bold" />
 								<div class="form-group">
 									<input type="text" name="email" id="email" tabindex="1"
-										class="form-control" placeholder="E-mail"  required="required">
+										class="form-control" placeholder="E-mail" required="required">
 								</div>
 								<div class="form-group">
 									<input type="password" name="senha" id="senha" tabindex="2"
 										class="form-control" placeholder="Senha" required="required">
 								</div>
+
+								<div class="g-recaptcha"
+									data-sitekey="6LfmCzMUAAAAAD98ZaaQ7dNcPjQox1sRfmYgNydx"></div>
+
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
@@ -57,11 +62,11 @@
 								</div>
 								<div>
 									<label for="imagem">Imagem perfil: </label>
-									
+
 									<form:errors path="imagem" style="color: red;font-weight:bold" />
-									
-									 <input type="file"
-										name="imagem" multiple="multiple" required="required" />
+
+									<input type="file" name="imagem" multiple="multiple"
+										required="required" />
 								</div>
 
 								<div class="form-group">
