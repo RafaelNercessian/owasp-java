@@ -38,12 +38,12 @@ public class UsuarioController {
 
 	// Segunda opção contra Mass Assignment, utilizar o setAllowedFields do
 	// Spring
-	@InitBinder
+	/*@InitBinder
 	public void initBinder(WebDataBinder webDataBinder, WebRequest request) {
 		webDataBinder.setValidator(validator);
 		webDataBinder.setAllowedFields("email", "senha", "nome", "imagem",
 				"nomeImagem");
-	}
+	}*/
 
 	@RequestMapping("/usuario")
 	public String usuario(Model model) {
