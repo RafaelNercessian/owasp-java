@@ -68,7 +68,7 @@ public class UsuarioController {
 
 		// Primeira opção contra Mass Assignment, usando DTO
 		// Usuario usuario = usuarioDTO.montaUsuario();
-		chamaLogicaParaTratarImagem(usuario, request);
+		tratarImagem(usuario, request);
 		usuario.getRoles().add(new Role("ROLE_USER"));
 
 		dao.salva(usuario);
@@ -101,7 +101,7 @@ public class UsuarioController {
 		return "usuario";
 	}
 
-	private void chamaLogicaParaTratarImagem(Usuario usuario,
+	private void tratarImagem(Usuario usuario,
 			HttpServletRequest request) {
 		usuario.setNomeImagem(usuario.getImagem().getOriginalFilename());
 		File arquivoDeImagem = new File(request.getServletContext().getRealPath(
