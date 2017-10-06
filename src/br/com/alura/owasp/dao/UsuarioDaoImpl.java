@@ -24,7 +24,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		TypedQuery<Usuario> query = manager.createQuery(
 				"select u from Usuario u where u.email =:email", Usuario.class)
 				.setParameter("email", usuario.getEmail());
-		Usuario usuarioRetornado = query.getSingleResult();
+		Usuario usuarioRetornado = query.getResultList().stream().findFirst().orElse(null);
 		if (!validaSenhaDoUsuarioComOHAshDoBanco(usuario, usuarioRetornado)) {
 			return null;
 		}
@@ -36,7 +36,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		TypedQuery<Usuario> query = manager.createQuery(
 				"select u from Usuario u where u.email =:email", Usuario.class);
 		query.setParameter("email", usuario.getEmail());
-		Usuario usuarioRetornado = query.getSingleResult();
+		Usuario usuarioRetornado = query.getResultList().stream().findFirst().orElse(null);
 
 		if (!validaSenhaDoUsuarioComOHAshDoBanco(usuario, usuarioRetornado)) {
 			return false;

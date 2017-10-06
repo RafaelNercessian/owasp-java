@@ -17,53 +17,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.alura.owasp.dao.BlogDao;
-import br.com.alura.owasp.model.BlogPost;
-import br.com.alura.owasp.validator.BlogPostValidator;
+import br.com.alura.owasp.dao.DepoimentoDao;
+import br.com.alura.owasp.model.Depoimento;
+import br.com.alura.owasp.validator.DepoimentoValidator;
 
 @Controller
 @Transactional
-public class BlogController {
+public class DepoimentoController {
 
 	@Autowired
-	private BlogDao dao;
+	private DepoimentoDao dao;
 
 	@Autowired
-	private BlogPostValidator validator;
+	private DepoimentoValidator validator;
 
 	@InitBinder
 	public void initBinder(WebDataBinder webDataBinder) {
 		webDataBinder.setValidator(validator);
 	}
 
-	@RequestMapping("/blog")
-	public String blog(Model model) {
+	@RequestMapping("/depoimento")
+	public String depoimento(Model model) {
 		chamaPostsDoBanco(model);
-		return "blog";
+		return "depoimento";
 	}
 
 	@RequestMapping(value = "/enviaMensagem", method = RequestMethod.POST)
 	public String enviaMensagem(
-			@Valid @ModelAttribute(value = "blog") BlogPost blog,
+			@Valid @ModelAttribute(value = "depoimentos") Depoimento depoimento,
 			BindingResult result, RedirectAttributes redirect, Model model) {
 		chamaPostsDoBanco(model);
 		
 		//Segunda versão, usando a classe BlogPostValidator
 		if (result.hasErrors()) {
-			return "blog";
+			return "depoimento";
 		}
 
 		// Primeira versão de correção, usamos o escapeHtml
-		blog.setMensagem(StringEscapeUtils.escapeHtml(blog.getMensagem()));
-		blog.setTitulo(StringEscapeUtils.escapeHtml(blog.getTitulo()));
-		dao.salvaBlogPost(blog);
-		return "redirect:/blog";
+		depoimento.setMensagem(StringEscapeUtils.escapeHtml(depoimento.getMensagem()));
+		depoimento.setTitulo(StringEscapeUtils.escapeHtml(depoimento.getTitulo()));
+		dao.salvaBlogPost(depoimento);
+		return "redirect:/depoimento";
 	}
 
 	private void chamaPostsDoBanco(Model model) {
-		BlogPost blogPost = new BlogPost();
-		model.addAttribute(blogPost);
-		List<BlogPost> mensagens = dao.buscaMensagens();
+		Depoimento depoimento = new Depoimento();
+		model.addAttribute(depoimento);
+		List<Depoimento> mensagens = dao.buscaMensagens();
 		model.addAttribute("lista", mensagens);
 	}
 

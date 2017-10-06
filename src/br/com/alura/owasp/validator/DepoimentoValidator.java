@@ -4,21 +4,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import br.com.alura.owasp.model.BlogPost;
+import br.com.alura.owasp.model.Depoimento;
 
 @Component
-public class BlogPostValidator implements Validator {
+public class DepoimentoValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return BlogPost.class.isAssignableFrom(clazz);
+		return Depoimento.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		BlogPost blog = (BlogPost) target;
-		String titulo = blog.getTitulo();
-		String mensagem = blog.getMensagem();
+		Depoimento depoimento = (Depoimento) target;
+		String titulo = depoimento.getTitulo();
+		String mensagem = depoimento.getMensagem();
 
 		if (titulo.contains("<") || titulo.contains(">")) {
 			errors.rejectValue("titulo", "errors.titulo", "O título não é válido");
