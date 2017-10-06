@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.alura.owasp.dao.UsuarioDao;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
+import br.com.alura.owasp.model.UsuarioDTO;
 import br.com.alura.owasp.util.VerificaRecaptcha;
 import br.com.alura.owasp.validator.UsuarioValidator;
 
@@ -60,7 +61,7 @@ public class UsuarioController {
 
 	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
 	public String registrar(
-			@Valid @ModelAttribute("usuario") Usuario usuario,
+			@Valid @ModelAttribute("usuario") UsuarioDTO usuarioDTO,
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
 
@@ -69,7 +70,7 @@ public class UsuarioController {
 		}
 
 		// Primeira opção contra Mass Assignment, usando DTO
-		// Usuario usuario = usuarioDTO.montaUsuario();
+		//Usuario usuario = usuarioDTO.montaUsuario();
 		tratarImagem(usuario, request);
 		usuario.getRoles().add(new Role("ROLE_USER"));
 

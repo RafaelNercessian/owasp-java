@@ -33,7 +33,7 @@ public class Usuario implements Serializable {
 	private String nomeImagem;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USUARIO_ROLE", joinColumns = { @JoinColumn(name = "EMAIL") }, inverseJoinColumns = { @JoinColumn(name = "NAME") })
-	private List<Role> roles= new ArrayList<>();
+	private final List<Role> roles= new ArrayList<>();
 
 	public String getEmail() {
 		return email;
