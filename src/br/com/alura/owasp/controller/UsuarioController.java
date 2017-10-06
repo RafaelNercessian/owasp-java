@@ -12,12 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.alura.owasp.dao.UsuarioDao;
@@ -82,9 +79,9 @@ public class UsuarioController {
 			RedirectAttributes redirect, Model model, HttpSession session,
 			HttpServletRequest request) throws IOException {
 
-		String respostaRecaptcha = request
+		String resposta = request
 				.getParameter("g-recaptcha-response");
-		boolean verificaRecaptcha = VerificaRecaptcha.validacao(respostaRecaptcha);
+		boolean verificaRecaptcha = VerificaRecaptcha.valido(resposta);
 
 		if (!verificaRecaptcha) {
 			redirect.addFlashAttribute("mensagem",

@@ -14,30 +14,25 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class VerificaRecaptcha {
 
-	public static final String url = "https://www.google.com/recaptcha/api/siteverify";
-	public static final String secret = "6LfmCzMUAAAAAEmQZsWi5qBYOUi3TkjGeC627Tbm";
-
-	public static boolean validacao(String gRecaptchaResponse) throws IOException {
+	public static boolean valido(String gRecaptchaResponse) throws IOException {
 		if (gRecaptchaResponse == null || gRecaptchaResponse.isEmpty()) {
 			return false;
 		}
 		
 		try{
-		URL objetoURL = new URL(url);
-		HttpsURLConnection conexao = (HttpsURLConnection) objetoURL.openConnection();
-
-		// Header request
+		URL url = new URL("https://www.google.com/recaptcha/api/siteverify");
+		HttpsURLConnection conexao = (HttpsURLConnection) url.openConnection();
 		conexao.setRequestMethod("POST");
 
-		String parametros = "secret=" + secret + "&response="
+		String parametros = "secret=6LfmCzMUAAAAAEmQZsWi5qBYOUi3TkjGeC627Tbm&response="
 				+ gRecaptchaResponse;
 
 		// Envia request Post
 		conexao.setDoOutput(true);
-		DataOutputStream dadosSaida = new DataOutputStream(conexao.getOutputStream());
-		dadosSaida.writeBytes(parametros);
-		dadosSaida.flush();
-		dadosSaida.close();
+		DataOutputStream saida = new DataOutputStream(conexao.getOutputStream());
+		saida.writeBytes(parametros);
+		saida.flush();
+		saida.close();
 
 		//Pega dados de retorno
 		BufferedReader bufferDeleitura = new BufferedReader(new InputStreamReader(

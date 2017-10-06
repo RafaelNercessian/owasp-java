@@ -47,10 +47,6 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			return false;
 		}
 
-		if (usuarioRetornado == null) {
-			return false;
-		}
-
 		return verificaSeUsuarioTemRoleAdmin(usuarioRetornado);
 	}
 
@@ -68,11 +64,11 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
 	private boolean validaSenhaDoUsuarioComOHAshDoBanco(Usuario usuario,
 			Usuario usuarioRetornado) {
-		if (usuarioRetornado != null) {
-			boolean comparaSenhaComHashESemHash = BCrypt.checkpw(
-					usuario.getSenha(), usuarioRetornado.getSenha());
-			return comparaSenhaComHashESemHash;
+		if (usuarioRetornado == null) {
+			return false;
 		}
-		return false;
+		boolean comparaSenhaComHashESemHash = BCrypt.checkpw(
+				usuario.getSenha(), usuarioRetornado.getSenha());
+		return comparaSenhaComHashESemHash;
 	}
 }

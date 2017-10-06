@@ -51,20 +51,17 @@ public class Usuario implements Serializable {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 
-	public String getNome() {
-		return nome;
-	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getNome() {
+		return nome;
 	}
 
 	public MultipartFile getImagem() {
