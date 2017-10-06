@@ -21,11 +21,11 @@ public class DepoimentoValidator implements Validator {
 		String mensagem = depoimento.getMensagem();
 
 		if (titulo.contains("<") || titulo.contains(">")) {
-			errors.rejectValue("titulo", "errors.titulo", "O título não é válido");
+			errors.rejectValue("titulo", "titulo", "O título não é válido");
 		}
 
 		if (mensagem.contains("<") || mensagem.contains(">")) {
-			errors.rejectValue("mensagem", "errors.mensagem","A mensagem passada não é válida");
+			errors.rejectValue("mensagem", "mensagem","A mensagem passada não é válida");
 		}
 	}
 

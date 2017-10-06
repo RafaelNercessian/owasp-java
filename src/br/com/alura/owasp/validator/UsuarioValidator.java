@@ -1,6 +1,5 @@
 package br.com.alura.owasp.validator;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
@@ -27,7 +26,7 @@ public class UsuarioValidator implements Validator {
 			InputStream inputStream = usuario.getImagem().getInputStream();
 			ImageIO.read(inputStream).toString();
 		} catch (Exception e) {
-			errors.rejectValue("imagem", "errors.imagem", "O formato da imagem não é válido!");
+			errors.rejectValue("imagem", "imagem", "O formato da imagem não é válido!");
 		}
 
 	}

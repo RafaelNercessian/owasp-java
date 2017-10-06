@@ -12,9 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.alura.owasp.dao.UsuarioDao;
@@ -35,12 +38,13 @@ public class UsuarioController {
 
 	// Segunda opção contra Mass Assignment, utilizar o setAllowedFields do
 	// Spring
-	/*@InitBinder
+
+	@InitBinder
 	public void initBinder(WebDataBinder webDataBinder, WebRequest request) {
 		webDataBinder.setValidator(validator);
 		webDataBinder.setAllowedFields("email", "senha", "nome", "imagem",
 				"nomeImagem");
-	}*/
+	}
 
 	@RequestMapping("/usuario")
 	public String usuario(Model model) {
@@ -55,7 +59,8 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
-	public String registrar(@Valid @ModelAttribute("usuario") Usuario usuario,
+	public String registrar(
+			@Valid @ModelAttribute("usuario") Usuario usuario,
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
 
@@ -79,8 +84,7 @@ public class UsuarioController {
 			RedirectAttributes redirect, Model model, HttpSession session,
 			HttpServletRequest request) throws IOException {
 
-		String resposta = request
-				.getParameter("g-recaptcha-response");
+		String resposta = request.getParameter("g-recaptcha-response");
 		boolean verificaRecaptcha = VerificaRecaptcha.valido(resposta);
 
 		if (!verificaRecaptcha) {
@@ -98,18 +102,16 @@ public class UsuarioController {
 		return "usuario";
 	}
 
-	private void tratarImagem(Usuario usuario,
-			HttpServletRequest request) {
+	private void tratarImagem(Usuario usuario, HttpServletRequest request) {
 		usuario.setNomeImagem(usuario.getImagem().getOriginalFilename());
-		File arquivoDeImagem = new File(request.getServletContext().getRealPath(
-				"/image"), usuario.getNomeImagem());
+		File arquivoDeImagem = new File(request.getServletContext()
+				.getRealPath("/image"), usuario.getNomeImagem());
 		try {
 			usuario.getImagem().transferTo(arquivoDeImagem);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
 
 	private String pesquisaUsuario(Usuario usuario,
 			RedirectAttributes redirect, Model model, HttpSession session) {
@@ -123,5 +125,5 @@ public class UsuarioController {
 			return "usuarioLogado";
 		}
 	}
-	
+
 }
