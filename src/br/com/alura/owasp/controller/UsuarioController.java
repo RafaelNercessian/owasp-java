@@ -61,7 +61,7 @@ public class UsuarioController {
 
 	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
 	public String registrar(
-			@Valid @ModelAttribute("usuario") UsuarioDTO usuarioDTO,
+			@Valid @ModelAttribute("usuario") Usuario usuario,
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
 
