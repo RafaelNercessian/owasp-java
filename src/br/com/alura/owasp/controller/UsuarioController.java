@@ -40,12 +40,12 @@ public class UsuarioController {
 	// Segunda opção contra Mass Assignment, utilizar o setAllowedFields do
 	// Spring
 
-	@InitBinder
-	public void initBinder(WebDataBinder webDataBinder, WebRequest request) {
-		webDataBinder.setValidator(validator);
-		webDataBinder.setAllowedFields("email", "senha", "nome", "imagem",
-				"nomeImagem");
-	}
+	// @InitBinder
+	// public void initBinder(WebDataBinder webDataBinder, WebRequest request) {
+	// webDataBinder.setValidator(validator);
+	// webDataBinder.setAllowedFields("email", "senha", "nome", "imagem",
+	// "nomeImagem");
+	// }
 
 	@RequestMapping("/usuario")
 	public String usuario(Model model) {
@@ -61,7 +61,7 @@ public class UsuarioController {
 
 	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
 	public String registrar(
-			@Valid @ModelAttribute("usuario") Usuario usuario,
+			@Valid @ModelAttribute("usuario") UsuarioDTO usuarioDTO,
 			BindingResult result, RedirectAttributes redirect,
 			HttpServletRequest request, Model model, HttpSession session) {
 
@@ -70,7 +70,7 @@ public class UsuarioController {
 		}
 
 		// Primeira opção contra Mass Assignment, usando DTO
-		//Usuario usuario = usuarioDTO.montaUsuario();
+		Usuario usuario = usuarioDTO.montaUsuario();
 		tratarImagem(usuario, request);
 		usuario.getRoles().add(new Role("ROLE_USER"));
 
@@ -88,13 +88,14 @@ public class UsuarioController {
 		String resposta = request.getParameter("g-recaptcha-response");
 		boolean verificaRecaptcha = VerificaRecaptcha.valido(resposta);
 
-		if (!verificaRecaptcha) {
-			redirect.addFlashAttribute("mensagem",
-					"Por favor, comprove que você é humano!");
-			return "redirect:/usuario";
+		if (verificaRecaptcha) {
+			return pesquisaUsuario(usuario, redirect, model, session);
 		}
 
-		return pesquisaUsuario(usuario, redirect, model, session);
+		redirect.addFlashAttribute("mensagem",
+				"Por favor, comprove que você é humano!");
+		return "redirect:/usuario";
+
 	}
 
 	@RequestMapping("/logout")
@@ -105,10 +106,10 @@ public class UsuarioController {
 
 	private void tratarImagem(Usuario usuario, HttpServletRequest request) {
 		usuario.setNomeImagem(usuario.getImagem().getOriginalFilename());
-		File arquivoDeImagem = new File(request.getServletContext()
-				.getRealPath("/image"), usuario.getNomeImagem());
+		File arquivo = new File(request.getServletContext().getRealPath(
+				"/image"), usuario.getNomeImagem());
 		try {
-			usuario.getImagem().transferTo(arquivoDeImagem);
+			usuario.getImagem().transferTo(arquivo);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -121,10 +122,11 @@ public class UsuarioController {
 		if (usuarioRetornado == null) {
 			redirect.addFlashAttribute("mensagem", "Usuário não encontrado");
 			return "redirect:/usuario";
-		} else {
-			session.setAttribute("usuario", usuarioRetornado);
-			return "usuarioLogado";
 		}
+		
+		session.setAttribute("usuario", usuarioRetornado);
+		return "usuarioLogado";
+
 	}
 
 }

@@ -34,12 +34,7 @@ public class UsuarioDTO {
 	}
 
 	public Usuario montaUsuario() {
-		Usuario usuario = new Usuario();
-		usuario.setEmail(this.email);
-		usuario.setNome(this.nome);
-		usuario.setImagem(this.imagem);
-		usuario.setSenha(this.senha);
-		usuario.setNomeImagem(this.nomeImagem);
+		Usuario usuario = new Usuario(email,nome,imagem,senha,nomeImagem);
 		return usuario;
 	}
 }

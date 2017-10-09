@@ -29,10 +29,10 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				.setParameter("email", usuario.getEmail());
 		Usuario usuarioRetornado = query.getResultList().stream().findFirst()
 				.orElse(null);
-		if (!validaSenhaDoUsuarioComOHAshDoBanco(usuario, usuarioRetornado)) {
-			return null;
+		if (validaSenhaDoUsuarioComOHAshDoBanco(usuario, usuarioRetornado)) {
+			return usuarioRetornado;
 		}
-		return usuarioRetornado;
+		return null;
 	}
 
 	@Override
@@ -43,11 +43,11 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		Usuario usuarioRetornado = query.getResultList().stream().findFirst()
 				.orElse(null);
 
-		if (!validaSenhaDoUsuarioComOHAshDoBanco(usuario, usuarioRetornado)) {
-			return false;
+		if (validaSenhaDoUsuarioComOHAshDoBanco(usuario, usuarioRetornado)) {
+			return verificaSeUsuarioTemRoleAdmin(usuarioRetornado);
 		}
 
-		return verificaSeUsuarioTemRoleAdmin(usuarioRetornado);
+		return false;
 	}
 
 	private boolean verificaSeUsuarioTemRoleAdmin(Usuario usuarioRetornado) {
