@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.alura.owasp.dao.UsuarioDao;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
+import br.com.alura.owasp.util.VerificaRecaptcha;
 
 @Controller
 @Transactional
@@ -51,18 +52,16 @@ public class UsuarioController {
 		return "usuarioLogado";
 	}
 
-	@RequestMapping("/login")
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("usuario") Usuario usuario,
-			RedirectAttributes redirect, Model model, HttpSession session) {
-		Usuario usuarioRetornado = dao.procuraUsuario(usuario);
-		model.addAttribute("usuario", usuarioRetornado);
-		if (usuarioRetornado == null) {
-			redirect.addFlashAttribute("mensagem", "Usuário não encontrado!");
-			return "redirect:/usuario";
-		} else {
-			session.setAttribute("usuario", usuarioRetornado);
-			return "usuarioLogado";
-		}
+			RedirectAttributes redirect, Model model, HttpSession session, HttpServletRequest request) {
+		
+		String resposta = request.getParameter("g-recaptcha-response");
+		
+		VerificaRecaptcha.valido(resposta);
+
+		return pesquisaUsuario(usuario, redirect, model, session);
+
 	}
 
 	@RequestMapping("/logout")
@@ -81,5 +80,19 @@ public class UsuarioController {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private String pesquisaUsuario(Usuario usuario,
+			RedirectAttributes redirect, Model model, HttpSession session) {
+		Usuario usuarioRetornado = dao.procuraUsuario(usuario);
+		model.addAttribute("usuario", usuarioRetornado);
+		
+		if (usuarioRetornado == null) {
+			redirect.addFlashAttribute("mensagem", "Usuário não encontrado!");
+			return "redirect:/usuario";
+		}
+
+		session.setAttribute("usuario", usuarioRetornado);
+		return "usuarioLogado";
 	}
 }

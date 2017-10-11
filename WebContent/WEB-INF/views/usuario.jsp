@@ -19,7 +19,7 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<form id="login-form" action="${s:mvcUrl('UC#login').build()}"
-								method="get" role="form" style="display: block;">
+								method="post" role="form" style="display: block;">
 								<form:errors path="email" style="color:red;font-weight:bold"/>
 								<div class="form-group">
 									<input type="text" name="email" id="email" tabindex="1"
@@ -29,7 +29,10 @@
 									<input type="password" name="senha" id="senha" tabindex="2"
 										class="form-control" placeholder="Senha" required="required">
 								</div>
-								<div class="form-group">
+								
+								<div class="g-recaptcha" data-sitekey="6LeF1DMUAAAAAOHPkf_3suznBg9VTDwsjVFm3O1l"></div>
+								
+								<div class="form-group" style="margin-top: 10px">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
 											<input type="submit" name="login-submit" id="login-submit"

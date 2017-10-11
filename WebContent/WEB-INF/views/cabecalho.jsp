@@ -13,6 +13,7 @@
 <link href="<c:url value="/resources/css/datepicker.css"/>"
 	rel="stylesheet">
 <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
+<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
 <body>
